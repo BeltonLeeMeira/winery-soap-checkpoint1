@@ -3,20 +3,20 @@
 Webservice SOAP (JAX-WS) com publicação (Publisher) e dois consumidores (Consumer),
 desenvolvido para o Checkpoint 1 da disciplina **Arquitetura SOA e Web Services**.
 
-## Integrantes do grupo
+## Aluno
 - Belton Lee Carr De Muzio Meira - RM560760
 
 ## Estrutura do repositório
 
 ```
-Winery/
+.
 ├── Publisher/
 │   └── WinerySys/                # Publica os serviços SOAP
 │       └── src/main/java/br/com/fiap/winery/
-│           ├── WineStockService.java                  (interface)
+│           ├── WineStockService.java                   (interface)
 │           ├── WineStockServiceImplementation.java     (implementação)
 │           ├── WineWarningService.java                 (interface)
-│           ├── WineWarningServiceImplementation.java    (implementação)
+│           ├── WineWarningServiceImplementation.java   (implementação)
 │           └── Loader.java                             (classe driver que publica os endpoints)
 └── Consumer/
     ├── WineStockClient/          # Consome getMenu()
@@ -27,19 +27,19 @@ Winery/
 
 ## Serviços publicados
 
-| Serviço            | Endpoint                                     | Método      |
-|---------------------|-----------------------------------------------|-------------|
-| WineStockService    | http://localhost:8085/WineStockService        | getMenu, placeOrder |
-| WineWarningService  | http://localhost:8086/WineWarningService       | sendWarn    |
+| Serviço            | Endpoint                                 | Método              |
+|--------------------|------------------------------------------|---------------------|
+| WineStockService   | http://localhost:8085/WineStockService   | getMenu, placeOrder |
+| WineWarningService | http://localhost:8086/WineWarningService | sendWarn            |
 
 ## Como executar
 
 1. **Publicar os serviços**
-   ```
+```
    cd Publisher/WinerySys
    mvn compile
    mvn exec:java -Dexec.mainClass="br.com.fiap.winery.Loader"
-   ```
+```
    (ou rode a classe `Loader` diretamente pela IDE)
 
    Confirme no console as mensagens "Serviço publicado!" e verifique os WSDLs no navegador:
@@ -47,21 +47,21 @@ Winery/
    - http://localhost:8086/WineWarningService?wsdl
 
 2. **Rodar o cliente do menu (WineStockClient)** — com o Publisher no ar:
-   ```
+```
    cd Consumer/WineStockClient
-   mvn generate-sources
    mvn compile
    mvn exec:java -Dexec.mainClass="br.com.fiap.winery.ApplicationClient1"
-   ```
+```
 
 3. **Rodar o cliente de pedido/aviso (WineOrderClient)** — com o Publisher no ar:
-   ```
+```
    cd Consumer/WineOrderClient
-   mvn generate-sources
    mvn compile
    mvn exec:java -Dexec.mainClass="br.com.fiap.winery.ApplicationClient2"
-   ```
+```
 
+> O `wsimport` (plugin `jaxws-maven-plugin`) baixa o WSDL do serviço em tempo real,
+> então o `Loader` precisa estar rodando **antes** de compilar os projetos Consumer.
 
 ## Mapeamento do roteiro
 
@@ -87,4 +87,3 @@ Winery/
 ## Requisitos
 - Java 17+
 - Maven 3.8+
-
